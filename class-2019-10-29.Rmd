@@ -1,0 +1,21 @@
+---
+title: "class-2019-10-29"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(gsheet)
+library(tidyverse)
+
+x <- gsheet2tbl("1cgP-e6THVfiW5TJ95QhX3jkNxKvc8Sicp9k_BkSRd2I")
+
+urn <- tibble(bead = c(rep("Red", 2000), rep("White", 8000)))
+
+p_red <- x %>% mutate(prop_red = (red)/(red + white)) %>% drop_na() 
+
+ggplot(p_red, aes(x = prop_red)) +
+  geom_bar(bins = 30)
+```
+
