@@ -32,3 +32,9 @@ ggplot(p_red, aes(x = prop_red)) +
   geom_bar()
 ```
 
+```{r}
+x2 <- gsheet2tbl("1QV7o63fiZdNtMtLQfdwREapf8eYDjpfSRX0dgfNrB8A") %>%
+  rep_sample_n(size = 5, replace = TRUE, reps = 1000)
+```
+
+
