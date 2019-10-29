@@ -8,14 +8,27 @@ knitr::opts_chunk$set(echo = TRUE)
 
 library(gsheet)
 library(tidyverse)
+library(infer)
 
 x <- gsheet2tbl("1cgP-e6THVfiW5TJ95QhX3jkNxKvc8Sicp9k_BkSRd2I")
 
 urn <- tibble(bead = c(rep("Red", 2000), rep("White", 8000)))
 
+virtual_samples <- urn %>%
+  rep_sample_n(size = 25, reps = 1000, replace = TRUE)
+
+virtual_prop_red <- virtual_samples %>%
+  group_by(replicate) %>%
+  summarize(red = sum(bead == "Red")) %>%
+  mutate(prop_red = red / 25)
+
+ggplot(virtual_prop_red, aes(x = prop_red)) +
+  geom_bar()
+
+
 p_red <- x %>% mutate(prop_red = (red)/(red + white)) %>% drop_na() 
 
 ggplot(p_red, aes(x = prop_red)) +
-  geom_bar(bins = 30)
+  geom_bar()
 ```
 
